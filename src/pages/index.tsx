@@ -1,12 +1,22 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import CityCard from "../components/CityCard";
+// import CityCard from "../components/CityCard";
 import Router from "next/router";
+import { useEffect, useState } from "react";
 
-import { trpc } from "../utils/trpc";
+// import { trpc } from "../utils/trpc";
+import { getOptionsForVote } from "../utils/getRandomCities";
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+  // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+  const [firstNum, setFirstNum] = useState(0);
+  const [secondNum, setSecondNum] = useState(0);
+
+  useEffect(() => {
+    const [first, second] = getOptionsForVote();
+    if (first) setFirstNum(first);
+    if (second) setSecondNum(second);
+  }, []);
 
   return (
     <>
@@ -16,7 +26,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen flex-col items-center justify-center bg-slate-700 p-4">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-slate-700 p-4">
         <h1 className="text-5xl font-extrabold leading-normal text-green-700 md:text-[5rem]">
           {"Pick Which Place You'd Rather Live"}
         </h1>
@@ -30,19 +40,21 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="mt-3 flex items-center justify-center gap-3 pt-3 text-center md:grid-cols-2 lg:w-2/3">
-          <CityCard
+          {/* <CityCard
             name="NextJS"
             description="The React framework for production"
             documentation="https://nextjs.org/"
-          />
+          /> */}
+          {firstNum}
           <div className="text-2xl text-green-700">VS</div>
-          <CityCard
+          {/* <CityCard
             name="TypeScript"
             description="The React framework for production"
             documentation="https://www.typescriptlang.org/"
-          />
+          /> */}
+          {secondNum}
         </div>
-      </main>
+      </div>
     </>
   );
 };
