@@ -1,4 +1,4 @@
-export const cities = [
+export const CityData = [
   {
     city: "Albuquerque",
     region: "New Mexico",
@@ -29,6 +29,7 @@ export const cities = [
     city: "Atlanta",
     region: "Georgia",
     regionCode: "GA",
+    population: 496461,
     averageRent: 1357,
     walkScore: 48,
     transitScore: 44,

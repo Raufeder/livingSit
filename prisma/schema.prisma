@@ -10,14 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
+model Vote {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  votedFor       City @relation(name: "votesFor", fields: [votedForId], references: [id])
+  votedForId     Int
+  votedAgainst   City @relation(name: "votesAgainst", fields: [votedAgainstId], references: [id])
+  votedAgainstId Int
+
+  @@index([votedForId])
+  @@index([votedAgainstId])
 }
 
 model City {
-  id              String   @id @default(cuid())
+  id              Int      @id @default(autoincrement())
   createdAt       DateTime @default(now())
   city            String
   region          String
@@ -27,7 +34,9 @@ model City {
   walkScore       Int
   transitScore    Int
   bikeScore       Int
-  nonViolentCrime Int
-  violentCrime    Int
+  nonViolentCrime Float
+  violentCrime    Float
   crimePercentile Int
+  VoteFor         Vote[]   @relation("votesFor")
+  VoteAgainst     Vote[]   @relation("votesAgainst")
 }
